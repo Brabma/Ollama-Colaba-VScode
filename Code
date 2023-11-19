@@ -1,0 +1,19 @@
+import os
+import subprocess
+from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.llms import Ollama
+from colabcode import ColabCode
+
+# Set the OLLAMA_HOST environment variable
+ollama_host = "https://256f-34-125-215-18.ngrok.io"
+os.environ["OLLAMA_HOST"] = ollama_host
+
+# Run the 'ollama run mistral' command to start the Ollama server
+subprocess.run("ollama run mistral", shell=True, check=True)
+
+# Create an Ollama instance with the specified model and callback manager
+llm = Ollama(model="mistral", callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]))
+
+# Perform a language model task and print the result
+llm("Tell me about the history of AI")
